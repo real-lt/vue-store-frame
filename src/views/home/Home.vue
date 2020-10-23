@@ -4,18 +4,21 @@
     <div slot="center">首页</div>
   </nav-bar>
   <home-swiper :banners="banners" />
+  <recommends-view :recommends="recommends" />
 </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar.vue";
 import HomeSwiper from "./childComps/HomeSwiper.vue";
+import RecommendsView from "./childComps/RecommendsView.vue";
 import { getHomeMultidata } from "network/home.js";
 export default {
   name: "Home",
   components: {
     NavBar,
-    HomeSwiper
+    HomeSwiper,
+    RecommendsView
   },
   data() {
     return {
@@ -28,7 +31,7 @@ export default {
     getHomeMultidata().then((result) => {
       console.log(result)
       this.banners = result.banners;
-      // this.recommends = result.recommends;
+      this.recommends = result.recommends;
     }).catch((err) => {
 
     });
