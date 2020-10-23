@@ -3,26 +3,19 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <swiper>
-    <swiper-item v-for="item in banners" :key="item.id">
-      <a :href="item.link">
-        <img :src="item.img">
-      </a>
-    </swiper-item>
-  </swiper>
+  <home-swiper :banners="banners" />
 </div>
 </template>
 
 <script>
-import NavBar from "components/common/navbar/NavBar.vue"
-import { Swiper, SwiperItem } from "components/common/swiper"
-import { getHomeMultidata } from "network/home.js"
+import NavBar from "components/common/navbar/NavBar.vue";
+import HomeSwiper from "./childComps/HomeSwiper.vue";
+import { getHomeMultidata } from "network/home.js";
 export default {
   name: "Home",
   components: {
     NavBar,
-    Swiper,
-    SwiperItem
+    HomeSwiper
   },
   data() {
     return {
