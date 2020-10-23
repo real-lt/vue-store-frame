@@ -6,8 +6,8 @@
   <home-swiper :banners="banners" />
   <recommends-view :recommends="recommends" />
   <feature-view />
-  <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" />
-  <goods-list :goods="goods['title1'].list" />
+  <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
+  <goods-list :goods="showGoodsByTab" />
   <p>11</p>
   <p>11</p>
   <p>11</p>
@@ -45,7 +45,13 @@ export default {
         "title1": { page: 0, list: [] },
         "title2": { page: 0, list: [] },
         "title3": { page: 0, list: [] },
-      }
+      },
+      currentType: "title1"
+    }
+  },
+  computed: {
+    showGoodsByTab() {
+      return this.goods[this.currentType].list
     }
   },
   created() {
@@ -57,6 +63,20 @@ export default {
     this.loadHomeGoods("title3")
   },
   methods: {
+    // tab 切换事件
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = "title1";
+          break;
+        case 1:
+          this.currentType = "title2";
+          break;
+        case 2:
+          this.currentType = "title3";
+          break;
+      }
+    },
     loadHomeMultidata() {
       getHomeMultidata().then((result) => {
         this.banners = result.banners;
