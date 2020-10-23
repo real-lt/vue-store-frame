@@ -4,7 +4,7 @@ const Mock = require("mockjs");
 // 获取 mock.Random 对象
 const Random = Mock.Random;
 
-// mock 一组数据
+// 首页上半部分模拟数据
 const newHomeData = function () {
   let banners = [];
   for (let i = 0; i < 5; i++) {
@@ -33,4 +33,25 @@ const newHomeData = function () {
 }
 
 // Mock.mock(url, post/get, 返回的数据)
-Mock.mock("/news/index", "post", newHomeData)
+Mock.mock("/home/multidata", "post", newHomeData)
+
+// 首页tabControl对应的数据
+const newHomeGoodsData = function (type, page) {
+  let list = [];
+  for (let index = 0; index < 20; index++) {
+    let listObj = {
+      id: index,
+      collect: Math.floor(Math.random() * 10),
+      link: Random.url(), // 生成URL
+      price: (Math.random() * 5).toFixed(2),
+      show: {
+        img: Random.dataImage('300x500', 'mock图片')
+      },
+      desc: Random.csentence(),
+    }
+    list.push(listObj)
+  }
+  return { list: list }
+}
+
+Mock.mock("/home/goods", "post", newHomeGoodsData)
