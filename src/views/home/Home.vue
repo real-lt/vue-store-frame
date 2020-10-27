@@ -11,7 +11,7 @@
     <goods-list :goods="showGoodsByTab" />
   </scroll>
   <back-top @click.native="backTopClick" v-show="isShowBackTop" />
-  <!-- <loading /> -->
+  <!-- <main-loading :is-all="isAll" /> -->
 </div>
 </template>
 
@@ -25,6 +25,7 @@ import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabControl/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
+import MainLoading from "components/content/loading/MainLoading.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 export default {
@@ -37,7 +38,8 @@ export default {
     Scroll,
     TabControl,
     GoodsList,
-    BackTop
+    BackTop,
+    MainLoading
   },
   data() {
     return {
@@ -49,7 +51,8 @@ export default {
         "title3": { page: 0, list: [] },
       },
       currentType: "title1",
-      isShowBackTop: false
+      isShowBackTop: false,
+      isAll: true
     }
   },
   computed: {
@@ -103,9 +106,14 @@ export default {
     loadHomeGoods(type) {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then((result) => {
-        this.goods[type].list.push(...result.list)
-        this.goods[type].page += 1;
-        this.$refs.scroll.finishPullUp()
+        // if ((result.list || []).length === 0) {
+          // this.isAll = true;
+        // } else {
+          this.goods[type].list.push(...result.list)
+          this.goods[type].page += 1;
+          this.$refs.scroll.finishPullUp()
+        //   this.isAll = false;
+        // }
       }).catch((err) => {
         console.error(err)
       });
