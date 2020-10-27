@@ -12,15 +12,21 @@ export default {
   name: "Scroll",
   data() {
     return {
-      scroll: null
+      scroll: {}
     }
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
-
+      // 控制其内的元素是否可以被点击，默认 false
+      click: true
     })
     console.log(this.scroll)
   },
+  methods: {
+    scrollTo(x, y, time = 300) {
+      this.scroll.scrollTo(x, y, time)
+    }
+  }
 }
 </script>
 

@@ -3,13 +3,14 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <scroll class="content">
+  <scroll class="content" ref="scroll">
     <home-swiper :banners="banners" />
     <recommends-view :recommends="recommends" />
     <feature-view />
     <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
     <goods-list :goods="showGoodsByTab" />
   </scroll>
+  <back-top @click.native="backTopClick" />
 </div>
 </template>
 
@@ -22,6 +23,7 @@ import NavBar from "components/common/navbar/NavBar.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabControl/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
+import BackTop from "components/content/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 export default {
@@ -33,7 +35,8 @@ export default {
     NavBar,
     Scroll,
     TabControl,
-    GoodsList
+    GoodsList,
+    BackTop
   },
   data() {
     return {
@@ -61,6 +64,10 @@ export default {
     this.loadHomeGoods("title3")
   },
   methods: {
+    // 回到顶部
+    backTopClick() {
+      this.$refs.scroll.scrollTo(0, 0)
+    },
     // tab 切换事件
     tabClick(index) {
       switch (index) {
