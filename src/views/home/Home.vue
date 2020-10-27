@@ -3,14 +3,14 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <scroll class="content" ref="scroll">
+  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
     <home-swiper :banners="banners" />
     <recommends-view :recommends="recommends" />
     <feature-view />
     <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
     <goods-list :goods="showGoodsByTab" />
   </scroll>
-  <back-top @click.native="backTopClick" />
+  <back-top @click.native="backTopClick" v-show="isShowBackTop" />
 </div>
 </template>
 
@@ -47,7 +47,8 @@ export default {
         "title2": { page: 0, list: [] },
         "title3": { page: 0, list: [] },
       },
-      currentType: "title1"
+      currentType: "title1",
+      isShowBackTop: false
     }
   },
   computed: {
@@ -64,6 +65,10 @@ export default {
     this.loadHomeGoods("title3")
   },
   methods: {
+    // 监听页面滚动
+    contentScroll(position) {
+      this.isShowBackTop = -position.y > 1000
+    },
     // 回到顶部
     backTopClick() {
       this.$refs.scroll.scrollTo(0, 0)
