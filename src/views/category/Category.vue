@@ -4,10 +4,9 @@
 
 <script>
 export default {
-  name: "Category"
+  name: "Category",
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 </style>

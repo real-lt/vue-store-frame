@@ -3,17 +3,13 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <home-swiper :banners="banners" />
-  <recommends-view :recommends="recommends" />
-  <feature-view />
-  <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
-  <goods-list :goods="showGoodsByTab" />
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
-  <p>11</p>
+  <scroll class="content">
+    <home-swiper :banners="banners" />
+    <recommends-view :recommends="recommends" />
+    <feature-view />
+    <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
+    <goods-list :goods="showGoodsByTab" />
+  </scroll>
 </div>
 </template>
 
@@ -23,6 +19,7 @@ import RecommendsView from "./childComps/RecommendsView.vue";
 import FeatureView from "./childComps/FeatureView.vue";
 
 import NavBar from "components/common/navbar/NavBar.vue";
+import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabControl/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
 
@@ -34,6 +31,7 @@ export default {
     RecommendsView,
     FeatureView,
     NavBar,
+    Scroll,
     TabControl,
     GoodsList
   },
@@ -88,7 +86,6 @@ export default {
     loadHomeGoods(type) {
       const page = this.goods[type].page + 1
       getHomeGoods(type, page).then((result) => {
-        console.log(result.list)
         this.goods[type].list.push(...result.list)
         this.goods[type].page += 1
       }).catch((err) => {
@@ -100,6 +97,12 @@ export default {
 </script>
 
 <style scoped>
+#home {
+  /* padding-top: 44px; */
+  height: 100vh;
+  position: relative;
+}
+
 .home-nav {
   background-color: var(--color-tint);
   color: #ffffff;
@@ -109,6 +112,16 @@ export default {
   left: 0;
   right: 0;
   z-index: 9;
+}
+
+.content {
+  overflow: hidden;
+  position: absolute;
+  /* top: 44px; */
+  top: 0;
+  bottom: 49px;
+  left: 0;
+  right: 0;
 }
 
 .tab-control {
