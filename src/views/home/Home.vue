@@ -3,7 +3,7 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true" @scrollEnd="loadMore">
     <home-swiper :banners="banners" />
     <recommends-view :recommends="recommends" />
     <feature-view />
@@ -11,6 +11,7 @@
     <goods-list :goods="showGoodsByTab" />
   </scroll>
   <back-top @click.native="backTopClick" v-show="isShowBackTop" />
+  <!-- <loading /> -->
 </div>
 </template>
 
@@ -65,13 +66,17 @@ export default {
     this.loadHomeGoods("title3")
   },
   methods: {
+    // 上拉加载更多
+    loadMore() {
+      this.loadHomeGoods(this.currentType);
+    },
     // 监听页面滚动
     contentScroll(position) {
-      this.isShowBackTop = -position.y > 1000
+      this.isShowBackTop = -position.y > 1000;
     },
     // 回到顶部
     backTopClick() {
-      this.$refs.scroll.scrollTo(0, 0)
+      this.$refs.scroll.scrollTo(0, 0);
     },
     // tab 切换事件
     tabClick(index) {
@@ -96,10 +101,11 @@ export default {
       });
     },
     loadHomeGoods(type) {
-      const page = this.goods[type].page + 1
+      const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then((result) => {
         this.goods[type].list.push(...result.list)
-        this.goods[type].page += 1
+        this.goods[type].page += 1;
+        this.$refs.scroll.finishPullUp()
       }).catch((err) => {
         console.error(err)
       });

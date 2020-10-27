@@ -38,9 +38,9 @@ Mock.mock("/home/multidata", "post", newHomeData)
 // 首页tabControl对应的数据
 const newHomeGoodsData = function (type, page) {
   let list = [];
-  for (let index = 0; index < 20; index++) {
+  for (let index = 0; index < 4; index++) {
     let listObj = {
-      id: index,
+      // id: index,
       collect: Math.floor(Math.random() * 10),
       link: Random.url(), // 生成URL
       price: (Math.random() * 5).toFixed(2),
