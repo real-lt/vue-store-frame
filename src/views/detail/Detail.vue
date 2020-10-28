@@ -3,6 +3,7 @@
   <detail-nav-bar />
   <detail-swiper :topImgs="topImgs" />
   <detail-base-info :goods="goods" />
+  <detail-shop-info :shop="shop" />
 </div>
 </template>
 
@@ -10,6 +11,7 @@
 import DetailNavBar from "./childComps/DetailNavBar.vue";
 import DetailSwiper from "./childComps/DetailSwiper.vue";
 import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
+import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 
 import { getDetailById, Goods, ShopInfo } from "network/detail.js";
 export default {
@@ -24,7 +26,8 @@ export default {
   components: {
     DetailNavBar,
     DetailSwiper,
-    DetailBaseInfo
+    DetailBaseInfo,
+    DetailShopInfo
   },
   created() {
     getDetailById({

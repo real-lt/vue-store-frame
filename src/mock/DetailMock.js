@@ -43,7 +43,7 @@ const getDetailInfo = function (option) {
       shopLogo: Random.dataImage('200x200', 'logo'),
       name: Random.csentence(3, 5),
       cFans: Math.round(Math.random() * 100),
-      cSells: Math.round(Math.random() * 100),
+      cSells: (Math.random() * 5).toFixed(1),
       cGoods: Math.round(Math.random() * 100),
       score: [
         { isBetter: score_1 > 4.5, name: "描述相符", score: score_1 },
