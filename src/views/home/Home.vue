@@ -3,11 +3,12 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
+  <tab-control ref="tabControl_1" class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" v-show="isTabFixed" />
   <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pullUpLoad="true" @pullingUp="loadMore">
-    <home-swiper :banners="banners" />
+    <home-swiper :banners="banners" @swiperImgComplete="swiperImgComplete" />
     <recommends-view :recommends="recommends" />
     <feature-view />
-    <tab-control class="tab-control" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
+    <tab-control ref="tabControl_2" :titles="['title1', 'title2', 'title3']" @tabClick="tabClick" />
     <goods-list :goods="showGoodsByTab" />
   </scroll>
   <back-top @click.native="backTopClick" v-show="isShowBackTop" />
@@ -25,7 +26,7 @@ import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabControl/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
 import BackTop from "components/content/backTop/BackTop.vue";
-import MainLoading from "components/content/loading/MainLoading.vue";
+// import MainLoading from "components/content/loading/MainLoading.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 import { debounce } from "common/utils.js";
@@ -40,7 +41,7 @@ export default {
     TabControl,
     GoodsList,
     BackTop,
-    MainLoading
+    // MainLoading
   },
   data() {
     return {
@@ -53,7 +54,9 @@ export default {
       },
       currentType: "title1",
       isShowBackTop: false,
-      isAll: true
+      tabOffsetTop: 0,
+      isTabFixed: false
+      // isAll: true
     }
   },
   computed: {
@@ -70,20 +73,28 @@ export default {
     this.loadHomeGoods("title3")
   },
   mounted() {
-    // 3. 监听图片加载，刷新BScroll
+    // 1. 监听图片加载，刷新BScroll
     const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on("imageLoadCompelete", () => {
+    this.$bus.$on("imageLoadComplete", () => {
       refresh()
     })
   },
   methods: {
+    // 监听轮播图片加载完成事件（只监听一次即可，只是为了获取高度）
+    swiperImgComplete() {
+      // 所有的组件都有一个 $el 属性，用于获取组件中的元素
+      this.tabOffsetTop = this.$refs.tabControl_2.$el.offsetTop;
+    },
     // 上拉加载更多
     loadMore() {
       this.loadHomeGoods(this.currentType);
     },
     // 监听页面滚动
     contentScroll(position) {
+      // 1. 判断 BackTop 是否显示
       this.isShowBackTop = -position.y > 1000;
+      // 2. 决定tabControl是否吸顶（position:fixed）
+      this.isTabFixed = (-position.y) > this.tabOffsetTop;
     },
     // 回到顶部
     backTopClick() {
@@ -102,6 +113,7 @@ export default {
           this.currentType = "title3";
           break;
       }
+      this.$refs.tabControl_1.currentIndex = this.$refs.tabControl_2.currentIndex = index;
     },
     loadHomeMultidata() {
       getHomeMultidata().then((result) => {
@@ -142,12 +154,6 @@ export default {
 .home-nav {
   background-color: var(--color-tint);
   color: #ffffff;
-  /* 吸顶 */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9;
 }
 
 .content {
@@ -160,8 +166,7 @@ export default {
 }
 
 .tab-control {
-  position: sticky;
-  top: 44px;
+  position: relative;
   z-index: 9;
 }
 </style>

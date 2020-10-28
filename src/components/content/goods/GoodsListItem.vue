@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     imageLoad() {
-      this.$bus.$emit("imageLoadCompelete")
+      this.$bus.$emit("imageLoadComplete")
     }
   }
 }
