@@ -55,7 +55,8 @@ export default {
       currentType: "title1",
       isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: 0
       // isAll: true
     }
   },
@@ -71,6 +72,13 @@ export default {
     this.loadHomeGoods("title1")
     this.loadHomeGoods("title2")
     this.loadHomeGoods("title3")
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    // this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   mounted() {
     // 1. 监听图片加载，刷新BScroll
