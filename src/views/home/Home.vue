@@ -3,7 +3,8 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true" @scrollEnd="loadMore">
+  <!-- <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true" @scrollEnd="loadMore"> -->
+  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true">
     <home-swiper :banners="banners" />
     <recommends-view :recommends="recommends" />
     <feature-view />
@@ -28,6 +29,7 @@ import BackTop from "components/content/backTop/BackTop.vue";
 import MainLoading from "components/content/loading/MainLoading.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
+import { debounce } from "common/utils.js";
 export default {
   name: "Home",
   components: {
@@ -68,11 +70,18 @@ export default {
     this.loadHomeGoods("title2")
     this.loadHomeGoods("title3")
   },
+  mounted() {
+    // 3. 监听图片加载，刷新BScroll
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
+    this.$bus.$on("imageLoadCompelete", () => {
+      refresh()
+    })
+  },
   methods: {
     // 上拉加载更多
-    loadMore() {
-      this.loadHomeGoods(this.currentType);
-    },
+    // loadMore() {
+    //   this.loadHomeGoods(this.currentType);
+    // },
     // 监听页面滚动
     contentScroll(position) {
       this.isShowBackTop = -position.y > 1000;
@@ -107,11 +116,11 @@ export default {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then((result) => {
         // if ((result.list || []).length === 0) {
-          // this.isAll = true;
+        // this.isAll = true;
         // } else {
-          this.goods[type].list.push(...result.list)
-          this.goods[type].page += 1;
-          this.$refs.scroll.finishPullUp()
+        this.goods[type].list.push(...result.list)
+        this.goods[type].page += 1;
+        // this.$refs.scroll.finishPullUp()
         //   this.isAll = false;
         // }
       }).catch((err) => {
