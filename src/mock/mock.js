@@ -10,7 +10,7 @@ const newHomeData = function () {
   for (let i = 0; i < 5; i++) {
     let newBannerObject = {
       id: i,
-      img: Random.dataImage('300x250', 'mock图片'), // Random.dataImage( size, text ) 生成一段随机的 Base64 图片编码
+      img: Random.image('300x250', '#e6e3e3', 'mockImg'), // Random.dataImage( size, text ) 生成一段随机的 Base64 图片编码
       link: Random.url(), // 生成URL
     }
     banners.push(newBannerObject)
@@ -19,7 +19,7 @@ const newHomeData = function () {
   for (let i = 0; i < 4; i++) {
     let newRecommendObject = {
       id: i,
-      img: Random.dataImage('300x250', 'mock图片'), // Random.dataImage( size, text ) 生成一段随机的 Base64 图片编码
+      img: Random.image('300x250', '#e6e3e3', 'mockImg'), // Random.dataImage( size, text ) 生成一段随机的 Base64 图片编码
       link: Random.url(), // 生成URL
       title: "自定义标题"
     }
@@ -40,12 +40,12 @@ const newHomeGoodsData = function (type, page) {
   let list = [];
   for (let index = 0; index < 4; index++) {
     let listObj = {
-      // id: index,
+      id: (0|Math.random()*9e6).toString(36),
       collect: Math.floor(Math.random() * 10),
       link: Random.url(), // 生成URL
       price: (Math.random() * 5).toFixed(2),
       show: {
-        img: Random.dataImage('300x500', 'mock图片')
+        img: Random.image('300x500', '#e6e3e3', 'mockImg')
       },
       desc: Random.csentence(),
     }
