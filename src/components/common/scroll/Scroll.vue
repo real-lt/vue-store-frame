@@ -15,10 +15,10 @@ export default {
       type: Number,
       default: 0
     },
-    // pullUpLoad: {
-    //   type: Boolean,
-    //   default: false
-    // }
+    pullUpLoad: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -32,19 +32,21 @@ export default {
 
         click: true, // 控制其内的元素是否可以被点击，默认 false
         probeType: this.probeType,
-        // pullUpLoad: this.pullUpLoad // 是否开启上拉刷新监听
+        pullUpLoad: this.pullUpLoad // 是否开启上拉刷新监听
       })
       // 2. 监听滚动的位置
-      this.scroll.on("scroll", (position) => {
-        this.$emit("scroll", position)
-      })
+      if (this.probeType === 2 || this.probeType === 3) {
+        this.scroll.on("scroll", (position) => {
+          this.$emit("scroll", position)
+        })
+      }
 
-      // 3. 监听上拉加载更多
-      // this.scroll.on("scrollEnd", () => {
-      //   if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-      //     this.$emit("scrollEnd")
-      //   }
-      // })
+      // 3. 监听 scroll 滚动到底部
+      if (this.pullUpLoad) {
+        this.scroll.on("pullingUp", () => {
+          this.$emit("pullingUp")
+        })
+      }
     })
   },
   methods: {
@@ -52,9 +54,7 @@ export default {
       this.scroll && this.scroll.scrollTo && this.scroll.scrollTo(x, y, time)
     },
     finishPullUp() {
-      this.$nextTick(() => {
-        this.scroll.refresh();
-      })
+      this.scroll && this.scroll.finishPullUp()
     },
     refresh() {
       this.scroll && this.scroll.refresh()

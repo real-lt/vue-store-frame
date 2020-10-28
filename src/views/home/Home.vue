@@ -3,8 +3,7 @@
   <nav-bar class="home-nav">
     <div slot="center">首页</div>
   </nav-bar>
-  <!-- <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true" @scrollEnd="loadMore"> -->
-  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-upLoad="true">
+  <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pullUpLoad="true" @pullingUp="loadMore">
     <home-swiper :banners="banners" />
     <recommends-view :recommends="recommends" />
     <feature-view />
@@ -79,9 +78,9 @@ export default {
   },
   methods: {
     // 上拉加载更多
-    // loadMore() {
-    //   this.loadHomeGoods(this.currentType);
-    // },
+    loadMore() {
+      this.loadHomeGoods(this.currentType);
+    },
     // 监听页面滚动
     contentScroll(position) {
       this.isShowBackTop = -position.y > 1000;
@@ -120,7 +119,9 @@ export default {
         // } else {
         this.goods[type].list.push(...result.list)
         this.goods[type].page += 1;
-        // this.$refs.scroll.finishPullUp()
+
+        // 完成上拉加载更多
+        this.$refs.scroll.finishPullUp()
         //   this.isAll = false;
         // }
       }).catch((err) => {
