@@ -24,27 +24,6 @@
     </div>
   </div>
   <button>进店逛逛</button>
-  <div>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>ss</p>
-    <p>sss</p>
-    <p>sss</p>
-    <p>sss</p>
-    <p>sss</p>
-    <p>sss</p>
-    <p>sss</p>
-    <p>sss</p>
-  </div>
 </div>
 </template>
 

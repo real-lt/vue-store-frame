@@ -1,13 +1,17 @@
 <template>
 <div id="detail">
-  <detail-nav-bar />
-  <detail-swiper :topImgs="topImgs" />
-  <detail-base-info :goods="goods" />
-  <detail-shop-info :shop="shop" />
+  <detail-nav-bar class="detail-nav" />
+  <scroll class="content">
+    <detail-swiper :topImgs="topImgs" />
+    <detail-base-info :goods="goods" />
+    <detail-shop-info :shop="shop" />
+  </scroll>
 </div>
 </template>
 
 <script>
+import Scroll from "components/common/scroll/Scroll.vue";
+
 import DetailNavBar from "./childComps/DetailNavBar.vue";
 import DetailSwiper from "./childComps/DetailSwiper.vue";
 import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
@@ -24,10 +28,11 @@ export default {
     }
   },
   components: {
+    Scroll,
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
-    DetailShopInfo
+    DetailShopInfo,
   },
   created() {
     getDetailById({
@@ -44,6 +49,27 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+#detail {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+  height: 100vh;
+}
 
+.detail-nav {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+}
+
+.content {
+  height: calc(100% - 44px);
+  /* position: relative; */
+  /* overflow: hidden; */
+  /* top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0; */
+}
 </style>
