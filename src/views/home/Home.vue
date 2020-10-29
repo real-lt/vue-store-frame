@@ -29,7 +29,7 @@ import BackTop from "components/content/backTop/BackTop.vue";
 // import MainLoading from "components/content/loading/MainLoading.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
-import { debounce } from "common/utils.js";
+import { imgLoadCompleteMinxin } from "common/mixin.js";
 export default {
   name: "Home",
   components: {
@@ -60,6 +60,7 @@ export default {
       // isAll: true
     }
   },
+  mixins: [imgLoadCompleteMinxin],
   computed: {
     showGoodsByTab() {
       return this.goods[this.currentType].list
@@ -79,14 +80,10 @@ export default {
   },
   deactivated() {
     this.saveY = this.$refs.scroll.getScrollY()
+    // 取消全局事件监听
+    this.$bus.$off("imageLoadComplete", this.imgLoadListener)
   },
-  mounted() {
-    // 1. 监听图片加载，刷新BScroll
-    const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on("imageLoadComplete", () => {
-      refresh()
-    })
-  },
+  mounted() {},
   methods: {
     // 监听轮播图片加载完成事件（只监听一次即可，只是为了获取高度）
     swiperImgComplete() {

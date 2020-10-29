@@ -10,6 +10,16 @@ export function getDetailById(option) {
   })
 }
 
+export function getRecommendsById(option) {
+  return request({
+    url: "/detail/recommends",
+    method: "get",
+    params: {
+      id: option.id
+    }
+  })
+}
+
 export class Goods {
   constructor(itemInfo, columns, services) {
     this.title = itemInfo.title;

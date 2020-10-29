@@ -8,6 +8,7 @@
     <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad" />
     <detail-params-info :paramsInfo="paramsInfo" />
     <detail-comment-info :commentInfo="commentInfo" />
+    <goods-list :goods="recommends" />
   </scroll>
 </div>
 </template>
@@ -23,7 +24,11 @@ import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
 import DetailParamsInfo from "./childComps/DetailParamsInfo.vue";
 import DetailCommentInfo from "./childComps/DetailCommentInfo.vue";
 
-import { getDetailById, Goods, ShopInfo } from "network/detail.js";
+import GoodsList from "components/content/goods/GoodsList.vue";
+
+import { getDetailById, Goods, ShopInfo, getRecommendsById } from "network/detail.js";
+import { imgLoadCompleteMinxin } from "common/mixin.js";
+
 export default {
   name: "Detail",
   data() {
@@ -33,9 +38,11 @@ export default {
       shop: {},
       detailInfo: {},
       paramsInfo: {},
-      commentInfo: {}
+      commentInfo: {},
+      recommends: []
     }
   },
+  mixins: [imgLoadCompleteMinxin],
   components: {
     Scroll,
     DetailNavBar,
@@ -44,7 +51,8 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamsInfo,
-    DetailCommentInfo
+    DetailCommentInfo,
+    GoodsList
   },
   created() {
     getDetailById({
@@ -60,11 +68,23 @@ export default {
     }).catch((err) => {
       console.error(err)
     });
+    getRecommendsById({
+      id: 111
+    }).then(response => {
+      this.recommends = response.list;
+    }).catch(err => {
+      console.error(err)
+    })
   },
+  mounted() {},
   methods: {
     imageLoad() {
       this.$refs.scroll.refresh()
     }
+  },
+  destroyed() {
+    // 取消全局事件监听
+    this.$bus.$off("imageLoadComplete", this.imgLoadListener)
   }
 }
 </script>

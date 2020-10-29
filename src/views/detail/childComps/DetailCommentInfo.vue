@@ -61,7 +61,7 @@ export default {
 .comment-info {
   font-size: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #e6e3e3;
+  border-bottom: 3px solid #e6e3e3;
 }
 
 .user-info {
@@ -90,7 +90,7 @@ export default {
 }
 
 .noData {
-  border-bottom: 1px solid #e6e3e3;
+  border-bottom: 3px solid #e6e3e3;
   padding: 20px 0;
   text-align: center;
   font-size: 12px;

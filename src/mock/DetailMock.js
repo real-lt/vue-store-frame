@@ -102,3 +102,24 @@ const getDetailInfo = function (option) {
 
 // Mock.mock(url, post/get, 返回的数据)
 Mock.mock(/\/detail\/info/, "get", getDetailInfo)
+
+// 获取推荐数据
+const getRecommends = function(option) {
+  let id = option.url.split("id=")[1];
+  let list = [];
+  for (let index = 0; index < 4; index++) {
+    let listObj = {
+      id: (0|Math.random()*9e6).toString(36),
+      collect: Math.floor(Math.random() * 10),
+      link: Random.url(), // 生成URL
+      price: (Math.random() * 5).toFixed(2),
+      show: {
+        img: Random.image('300x500', '#e6e3e3', 'mockImg')
+      },
+      desc: Random.csentence(),
+    }
+    list.push(listObj)
+  }
+  return { list: list }
+}
+Mock.mock(/\/detail\/recommends/, "get", getRecommends)
