@@ -6,6 +6,7 @@
     <detail-base-info :goods="goods" />
     <detail-shop-info :shop="shop" />
     <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad" />
+    <detail-params-info :paramsInfo="paramsInfo" />
   </scroll>
 </div>
 </template>
@@ -18,6 +19,7 @@ import DetailSwiper from "./childComps/DetailSwiper.vue";
 import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
 import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
+import DetailParamsInfo from "./childComps/DetailParamsInfo.vue";
 
 import { getDetailById, Goods, ShopInfo } from "network/detail.js";
 export default {
@@ -27,7 +29,8 @@ export default {
       topImgs: [],
       goods: {},
       shop: {},
-      detailInfo: {}
+      detailInfo: {},
+      paramsInfo: {}
     }
   },
   components: {
@@ -36,7 +39,8 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     DetailShopInfo,
-    DetailGoodsInfo
+    DetailGoodsInfo,
+    DetailParamsInfo
   },
   created() {
     getDetailById({
@@ -47,6 +51,7 @@ export default {
       this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services);
       this.shop = new ShopInfo(data.shopInfo);
       this.detailInfo = data.detailInfo;
+      this.paramsInfo = data.paramsInfo;
     }).catch((err) => {
       console.error(err)
     });
@@ -76,11 +81,5 @@ export default {
 
 .detail-content {
   height: calc(100% - 44px);
-  /* position: relative; */
-  /* overflow: hidden; */
-  /* top: 44px;
-  bottom: 49px;
-  left: 0;
-  right: 0; */
 }
 </style>

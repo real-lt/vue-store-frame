@@ -58,6 +58,29 @@ const getDetailInfo = function (option) {
         key: "穿着效果",
         list: topImages
       }
+    },
+    paramsInfo: {
+      info: {
+        key: "产品参数",
+        set: [
+          { key: "厚薄", value: "普通" },
+          { key: "厂名", value: Random.csentence(3, 5) },
+          { key: "颜色", value: "黑色" },
+          { key: "尺码", value: "S,M,L,XL" },
+          { key: "衣长", value: "过膝" },
+          { key: "季节", value: "秋季" },
+          { key: "材质", value: "聚酯纤维" },
+          { key: "领型", value: "圆领" },
+          { key: "袖长", value: "七分" }
+        ]
+      },
+      tables: [
+        ["尺码", "S", "M", "L", "XL"],
+        ["胸围", "61", "62", "63", "64"],
+        ["袖长", "96", "97", "98", "99"],
+        ["肩宽", "36", "37", "38", "39"],
+        ["衣长", "54", "55", "56", "57"]
+      ]
     }
   }
   return {
