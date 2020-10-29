@@ -50,6 +50,14 @@ const getDetailInfo = function (option) {
         { isBetter: score_2 > 4.5, name: "价格合理", score: score_2 },
         { isBetter: score_3 > 4.5, name: "质量满意", score: score_3 }
       ]
+    },
+    detailInfo: {
+      desc: descs[Math.floor((Math.random() * descs.length))],
+      detailImage: {
+        desc: Random.csentence(30),
+        key: "穿着效果",
+        list: topImages
+      }
     }
   }
   return {

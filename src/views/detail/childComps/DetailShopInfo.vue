@@ -44,6 +44,7 @@ export default {
 <style lang="scss" scoped>
 .detail-shop-info {
   padding: 10px 10px;
+  border-bottom: 3px solid #e6e3e3;
 
   .shop-title {
     display: flex;
@@ -61,7 +62,7 @@ export default {
     margin: 20px 0;
     justify-content: space-around;
     text-align: center;
-    font-size: 15px;
+    font-size: 12px;
 
     .shop-total {
       display: flex;
@@ -114,7 +115,6 @@ export default {
           }
         }
       }
-
     }
   }
 
