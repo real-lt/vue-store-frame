@@ -85,6 +85,7 @@ export default {
       this.themeTopYs.push(this.$refs.params.$el.offsetTop);
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      this.themeTopYs.push(Number.MAX_VALUE);
     }, 200)
   },
   mounted() {},
@@ -93,8 +94,16 @@ export default {
     detailScroll(position) {
       let positionY = -position.y + 44;
       let length = this.themeTopYs.length;
-      for (let i = 0; i < length; i++) {
-        if (this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]) || (i === length - 1 && positionY >= this.themeTopYs[i]))) {
+
+      // for (let i = 0; i < length; i++) {
+      // if (this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]) || (i === length - 1 && positionY >= this.themeTopYs[i]))) {
+      //   this.currentIndex = i;
+      //   this.$refs.detailNav.currentIndex = this.currentIndex;
+      // }
+      // hack 写法
+      // 给 this.themeTopYs 最后 push 一个超级大的值，简化此处的判断逻辑
+      for (let i = 0; i < length - 1; i++) {
+        if (this.currentIndex !== i && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]) {
           this.currentIndex = i;
           this.$refs.detailNav.currentIndex = this.currentIndex;
         }
