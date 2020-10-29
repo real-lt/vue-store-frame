@@ -7,6 +7,7 @@
     <detail-shop-info :shop="shop" />
     <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad" />
     <detail-params-info :paramsInfo="paramsInfo" />
+    <detail-comment-info :commentInfo="commentInfo" />
   </scroll>
 </div>
 </template>
@@ -20,6 +21,7 @@ import DetailBaseInfo from "./childComps/DetailBaseInfo.vue";
 import DetailShopInfo from "./childComps/DetailShopInfo.vue";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo.vue";
 import DetailParamsInfo from "./childComps/DetailParamsInfo.vue";
+import DetailCommentInfo from "./childComps/DetailCommentInfo.vue";
 
 import { getDetailById, Goods, ShopInfo } from "network/detail.js";
 export default {
@@ -30,7 +32,8 @@ export default {
       goods: {},
       shop: {},
       detailInfo: {},
-      paramsInfo: {}
+      paramsInfo: {},
+      commentInfo: {}
     }
   },
   components: {
@@ -40,7 +43,8 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     DetailGoodsInfo,
-    DetailParamsInfo
+    DetailParamsInfo,
+    DetailCommentInfo
   },
   created() {
     getDetailById({
@@ -52,6 +56,7 @@ export default {
       this.shop = new ShopInfo(data.shopInfo);
       this.detailInfo = data.detailInfo;
       this.paramsInfo = data.paramsInfo;
+      this.commentInfo = data.rate
     }).catch((err) => {
       console.error(err)
     });

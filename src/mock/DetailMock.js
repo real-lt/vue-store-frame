@@ -81,6 +81,18 @@ const getDetailInfo = function (option) {
         ["肩宽", "36", "37", "38", "39"],
         ["衣长", "54", "55", "56", "57"]
       ]
+    },
+    rate: {
+      cRate: Math.round(Math.random() * 100),
+      comment: {
+        content: Random.csentence(30),
+        photo: Random.dataImage('100x100', 'mockImg'),
+        name: Random.csentence(3, 5),
+        // date: Random.date('yyyy-MM-dd'),
+        date: Date.now(),
+        size: "M",
+        imgs: topImages
+      }
     }
   }
   return {

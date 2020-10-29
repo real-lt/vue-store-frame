@@ -39,7 +39,7 @@ export default {
 }
 
 table {
-  line-height: 30px;
+  line-height: 40px;
   border-color: rgb(218, 216, 216);
   border-bottom-width: medium;
 }
