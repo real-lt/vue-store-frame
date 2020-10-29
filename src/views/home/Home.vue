@@ -25,11 +25,10 @@ import NavBar from "components/common/navbar/NavBar.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabControl/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
-import BackTop from "components/content/backTop/BackTop.vue";
 // import MainLoading from "components/content/loading/MainLoading.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
-import { imgLoadCompleteMinxin } from "common/mixin.js";
+import { imgLoadCompleteMinxin, backTopMixin } from "common/mixin.js";
 export default {
   name: "Home",
   components: {
@@ -40,7 +39,6 @@ export default {
     Scroll,
     TabControl,
     GoodsList,
-    BackTop,
     // MainLoading
   },
   data() {
@@ -53,14 +51,13 @@ export default {
         "title3": { page: 0, list: [] },
       },
       currentType: "title1",
-      isShowBackTop: false,
       tabOffsetTop: 0,
       isTabFixed: false,
       saveY: 0
       // isAll: true
     }
   },
-  mixins: [imgLoadCompleteMinxin],
+  mixins: [imgLoadCompleteMinxin, backTopMixin],
   computed: {
     showGoodsByTab() {
       return this.goods[this.currentType].list
@@ -100,10 +97,6 @@ export default {
       this.isShowBackTop = -position.y > 1000;
       // 2. 决定tabControl是否吸顶（position:fixed）
       this.isTabFixed = (-position.y) > this.tabOffsetTop;
-    },
-    // 回到顶部
-    backTopClick() {
-      this.$refs.scroll.scrollTo(0, 0);
     },
     // tab 切换事件
     tabClick(index) {

@@ -11,6 +11,7 @@
     <goods-list ref="recommend" :goods="recommends" />
   </scroll>
   <detail-bottom-bar />
+  <back-top @click.native="backTopClick" v-show="isShowBackTop" />
 </div>
 </template>
 
@@ -29,7 +30,7 @@ import DetailBottomBar from "./childComps/DetailBottomBar.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
 
 import { getDetailById, Goods, ShopInfo, getRecommendsById } from "network/detail.js";
-import { imgLoadCompleteMinxin } from "common/mixin.js";
+import { imgLoadCompleteMinxin, backTopMixin } from "common/mixin.js";
 import { debounce } from "common/utils.js";
 
 export default {
@@ -48,7 +49,7 @@ export default {
       currentIndex: 0
     }
   },
-  mixins: [imgLoadCompleteMinxin],
+  mixins: [imgLoadCompleteMinxin, backTopMixin],
   components: {
     Scroll,
     DetailNavBar,
@@ -111,6 +112,7 @@ export default {
           this.$refs.detailNav.currentIndex = this.currentIndex;
         }
       }
+      this.isShowBackTop = -position.y > 1000;
     },
     // 导航点击事件监听
     navBarClick(index) {

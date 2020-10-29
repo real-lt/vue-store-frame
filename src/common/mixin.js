@@ -16,3 +16,21 @@ export const imgLoadCompleteMinxin = {
     this.$bus.$on("imageLoadComplete", this.imgLoadListener)
   }
 }
+
+import BackTop from "components/content/backTop/BackTop.vue";
+export const backTopMixin = {
+  components: {
+    BackTop
+  },
+  data() {
+    return {
+      isShowBackTop: false,
+    }
+  },
+  methods: {
+    // 回到顶部
+    backTopClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+  }
+}
