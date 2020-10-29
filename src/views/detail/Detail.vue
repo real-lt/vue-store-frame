@@ -1,7 +1,7 @@
 <template>
 <div id="detail">
-  <detail-nav-bar class="detail-nav" @titleClick="navBarClick" />
-  <scroll class="detail-content" ref="scroll">
+  <detail-nav-bar ref="detailNav" class="detail-nav" @titleClick="navBarClick" />
+  <scroll class="detail-content" ref="scroll" :probe-type="3" @scroll="detailScroll">
     <detail-swiper :topImgs="topImgs" />
     <detail-base-info :goods="goods" />
     <detail-shop-info :shop="shop" />
@@ -42,7 +42,8 @@ export default {
       commentInfo: {},
       recommends: [],
       themeTopYs: [],
-      getThemeTopY: null
+      getThemeTopY: null,
+      currentIndex: 0
     }
   },
   mixins: [imgLoadCompleteMinxin],
@@ -84,14 +85,24 @@ export default {
       this.themeTopYs.push(this.$refs.params.$el.offsetTop);
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
-      console.log(this.themeTopYs)
     }, 200)
   },
   mounted() {},
   methods: {
+    // 页面滚动位置监听
+    detailScroll(position) {
+      let positionY = -position.y + 44;
+      let length = this.themeTopYs.length;
+      for (let i = 0; i < length; i++) {
+        if (this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]) || (i === length - 1 && positionY >= this.themeTopYs[i]))) {
+          this.currentIndex = i;
+          this.$refs.detailNav.currentIndex = this.currentIndex;
+        }
+      }
+    },
     // 导航点击事件监听
     navBarClick(index) {
-      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index] + 45, 300);
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index] + 44, 300);
     },
     imageLoad() {
       this.$refs.scroll.refresh();
