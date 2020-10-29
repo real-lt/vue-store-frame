@@ -1,14 +1,14 @@
 <template>
 <div id="detail">
-  <detail-nav-bar class="detail-nav" />
+  <detail-nav-bar class="detail-nav" @titleClick="navBarClick" />
   <scroll class="detail-content" ref="scroll">
     <detail-swiper :topImgs="topImgs" />
     <detail-base-info :goods="goods" />
     <detail-shop-info :shop="shop" />
     <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad" />
-    <detail-params-info :paramsInfo="paramsInfo" />
-    <detail-comment-info :commentInfo="commentInfo" />
-    <goods-list :goods="recommends" />
+    <detail-params-info ref="params" :paramsInfo="paramsInfo" />
+    <detail-comment-info ref="comment" :commentInfo="commentInfo" />
+    <goods-list ref="recommend" :goods="recommends" />
   </scroll>
 </div>
 </template>
@@ -28,6 +28,7 @@ import GoodsList from "components/content/goods/GoodsList.vue";
 
 import { getDetailById, Goods, ShopInfo, getRecommendsById } from "network/detail.js";
 import { imgLoadCompleteMinxin } from "common/mixin.js";
+import { debounce } from "common/utils.js";
 
 export default {
   name: "Detail",
@@ -39,7 +40,9 @@ export default {
       detailInfo: {},
       paramsInfo: {},
       commentInfo: {},
-      recommends: []
+      recommends: [],
+      themeTopYs: [],
+      getThemeTopY: null
     }
   },
   mixins: [imgLoadCompleteMinxin],
@@ -74,12 +77,25 @@ export default {
       this.recommends = response.list;
     }).catch(err => {
       console.error(err)
-    })
+    });
+    this.getThemeTopY = debounce(() => {
+      this.themeTopYs = [];
+      this.themeTopYs.push(0);
+      this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+      this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+      this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      console.log(this.themeTopYs)
+    }, 200)
   },
   mounted() {},
   methods: {
+    // 导航点击事件监听
+    navBarClick(index) {
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index] + 45, 300);
+    },
     imageLoad() {
-      this.$refs.scroll.refresh()
+      this.$refs.scroll.refresh();
+      this.getThemeTopY()
     }
   },
   destroyed() {
