@@ -33,6 +33,8 @@ import { getDetailById, Goods, ShopInfo, getRecommendsById } from "network/detai
 import { imgLoadCompleteMinxin, backTopMixin } from "common/mixin.js";
 import { debounce } from "common/utils.js";
 
+import { mapActions } from "vuex";
+
 export default {
   name: "Detail",
   data() {
@@ -99,6 +101,7 @@ export default {
   },
   mounted() {},
   methods: {
+    ...mapActions(["addCart"]),
     // 添加到购物车
     addToCart() {
       // 1. 获取购物车需要展示的商品信息
@@ -110,7 +113,9 @@ export default {
       product.iid = this.iid;
 
       // 2. 将商品添加到购物车
-      this.$store.dispatch("addCart", product)
+      this.addCart(product).then(response => {
+        console.log(response)
+      })
     },
     // 页面滚动位置监听
     detailScroll(position) {
