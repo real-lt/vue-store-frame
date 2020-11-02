@@ -20,7 +20,7 @@ export default {
 .check-button img {
   width: 15px;
   border-radius: 10px;
-  border: 2px solid #ff8198;
+  border: 1px solid #cdcdcd;
 }
 
 .checked {
