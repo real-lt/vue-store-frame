@@ -114,7 +114,7 @@ export default {
 
       // 2. 将商品添加到购物车
       this.addCart(product).then(response => {
-        console.log(response)
+        this.$toast.show(response)
       })
     },
     // 页面滚动位置监听

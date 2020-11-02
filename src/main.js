@@ -4,10 +4,13 @@ import router from './router'
 import store from './store'
 require("mock/HomeMock.js")
 require("mock/DetailMock.js")
+import toast from "components/common/toast"
 
 Vue.config.productionTip = false
 
 Vue.prototype.$bus = new Vue()
+
+Vue.use(toast)
 
 new Vue({
   router,
