@@ -17,10 +17,12 @@ export default {
     CartListItem
   },
   computed: {
-    ...mapGetters(["cartList"])
+    ...mapGetters(["cartList", "cartLength"])
   },
   activated() {
-    this.$refs.scroll.refresh()
+    if (this.cartLength != 0) {
+      this.$refs.scroll.refresh()
+    }
   }
 }
 </script>
