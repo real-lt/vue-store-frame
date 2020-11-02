@@ -7,6 +7,7 @@ export default {
       context.commit(ADD_COUNTER, oldProduct);
     } else {
       payLoad.count = 1;
+      payLoad.checked = true;
       // state.cartList.push(payLoad)
       context.commit(ADD_TO_CART, payLoad)
     }
