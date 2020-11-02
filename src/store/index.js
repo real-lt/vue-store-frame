@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import actions from "./actions.js"
 import mutations from "./mutations.js"
+import getters from "./getters.js"
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
   // mutations 中的每个方法尽可能完成的事件比较单一一点
   mutations,
   actions ,
+  getters,
   modules: {
   }
 })
