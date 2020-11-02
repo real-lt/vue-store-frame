@@ -1,30 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import actions from "./actions.js"
+import mutations from "./mutations.js"
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    cartList: []
-  },
-  mutations: {
-    addCart(state, payLoad) {
-      let oldProduct = null;
-      for (let item of state.cartList) {
-        if (item.iid === payLoad.iid) {
-          oldProduct = item;
-        }
-      }
-      if (oldProduct) {
-        oldProduct.count += 1;
-      } else {
-        payLoad.count = 1;
-        state.cartList.push(payLoad)
-      }
-    }
-  },
-  actions: {
-  },
+const state = {
+  cartList: []
+}
+const store = new Vuex.Store({
+  state,
+  // mutations 唯一的目的就是修改 state 中的状态
+  // mutations 中的每个方法尽可能完成的事件比较单一一点
+  mutations,
+  actions ,
   modules: {
   }
 })
+
+export default store
