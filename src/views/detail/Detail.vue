@@ -10,7 +10,7 @@
     <detail-comment-info ref="comment" :commentInfo="commentInfo" />
     <goods-list ref="recommend" :goods="recommends" />
   </scroll>
-  <detail-bottom-bar />
+  <detail-bottom-bar @addCart="addToCart" />
   <back-top @click.native="backTopClick" v-show="isShowBackTop" />
 </div>
 </template>
@@ -50,6 +50,11 @@ export default {
     }
   },
   mixins: [imgLoadCompleteMinxin, backTopMixin],
+  computed: {
+    iid() {
+      return this.$route.params.id
+    }
+  },
   components: {
     Scroll,
     DetailNavBar,
@@ -64,7 +69,7 @@ export default {
   },
   created() {
     getDetailById({
-      id: 111
+      id: this.iid
     }).then((result) => {
       const data = result.detailInfoObj;
       this.topImgs = data.itemInfo.topImages;
@@ -77,7 +82,7 @@ export default {
       console.error(err)
     });
     getRecommendsById({
-      id: 111
+      id: this.iid
     }).then(response => {
       this.recommends = response.list;
     }).catch(err => {
@@ -94,6 +99,19 @@ export default {
   },
   mounted() {},
   methods: {
+    // 添加到购物车
+    addToCart() {
+      // 1. 获取购物车需要展示的商品信息
+      const product = {};
+      product.image = this.topImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.newPrice;
+      product.iid = this.iid;
+
+      // 2. 将商品添加到购物车
+      this.$store.commit("addCart", product)
+    },
     // 页面滚动位置监听
     detailScroll(position) {
       let positionY = -position.y + 44;
